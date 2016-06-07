@@ -7,6 +7,8 @@ This emulates much of what can be found in the default Anki Drive SDK:<br/>
 This example shows similar capabilities using NodeJS.<br/>
 <br/>
 Full documentation can be found in the apidoc/index.html; which is automatically served by the nodeJS server at '/'.<br/>
+<h2>Running</h2>
+There is a run.sh to show how to run the server using a specific BLTE device.  I run this on a PI3 with built-in BLTE.  If you only have one BLTE device, node server.js should be enough.  You will likely need to do an npm install first to gather any dependencies.
 <h2>Known Limitations</h2>
 I was only able to sort out the track IDs for my kit.  I have a few other kits on order and will update the track IDs as best I can.  Please let me know if you are able to tell me additional track IDs and what type of track it is (straight/curve/start).<br/>
 <br/>

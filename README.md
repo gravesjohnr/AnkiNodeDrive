@@ -31,6 +31,7 @@ Here is a basic list of capabilities:<br/>
 <li>trackCountTravel</li>
 </ul>
 <b>LIGHTS</b>
+<ul>
 <li>flashTaillights</li>
 <li>setEngineLight</li>
 <li>turnOffHeadlights</li>

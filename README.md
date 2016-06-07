@@ -10,27 +10,32 @@ Full documentation can be found in the apidoc/index.html; which is automatically
 <h2>Running</h2>
 There is a run.sh to show how to run the server using a specific BLTE device.  I run this on a PI3 with built-in BLTE.  If you only have one BLTE device, node server.js should be enough.  You will likely need to do an npm install first to gather any dependencies.
 <h2>Basic capabilities</h2>
-See the apidoc for full api documentation.  Here is a basic list of capabilities:<br/>
-<b>COMMUNICATIONS</b><br/>
-- batteryLevel<br/>
-- connect<br/>
-- disconnect<br/>
-- getDevices<br/>
-- ping<br/>
-- rescan<br/>
-- turnOnLogging<br/>
-<b>DRIVE</b><br/>
-- changeLanes<br/>
-- setLaneOffset<br/>
-- setSpeed<br/>
-- trackCountTravel<br/>
-<b>LIGHTS</b><br/>
-- flashTaillights<br/>
-- setEngineLight<br/>
-- turnOffHeadlights<br/>
-- turnOffTaillights<br/>
-- turnOnHeadlights<br/>
-- turnOnTaillights<br/>
+See the apidoc for full api documentation.  There are some APIs, such as set-sdk, connect, etc, which happen automatically, so you don't need to worry about them.  For example, when you call "setSpeed", if the server is not connected to a car yet, it will automatically do a connect and turn on sdk mode. Also, logging is turned off by default, so you won't see messages from the car unless you explicitly call the 'turnOnLogging' service.<br>
+
+Here is a basic list of capabilities:<br/>
+<b>COMMUNICATIONS</b>
+<ul>
+<li>batteryLevel</li>
+<li>connect</li>
+<li>disconnect</li>
+<li>getDevices</li>
+<li>ping</li>
+<li>rescan</li>
+<li>turnOnLogging</li>
+</ul>
+<b>DRIVE</b>
+<ul>
+<li>changeLanes</li>
+<li>setLaneOffset</li>
+<li>setSpeed</li>
+<li>trackCountTravel</li>
+<b>LIGHTS</b>
+<li>flashTaillights</li>
+<li>setEngineLight</li>
+<li>turnOffHeadlights</li>
+<li>turnOffTaillights</li>
+<li>turnOnHeadlights</li>
+<li>turnOnTaillights</li>
 <br/>
 <h2>Known Limitations</h2>
 I was only able to sort out the track IDs for my kit.  I have a few other kits on order and will update the track IDs as best I can.  Please let me know if you are able to tell me additional track IDs and what type of track it is (straight/curve/start).<br/>

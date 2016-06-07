@@ -1,0 +1,36 @@
+#!/bin/bash
+curl -i http://localhost:8899/rescan
+sleep 5
+curl -i "http://localhost:8899/setSpeed/Thermo/300"
+curl -i "http://localhost:8899/setSpeed/Guardian/300"
+curl -i "http://localhost:8899/setSpeed/Skull/300"
+curl -i "http://localhost:8899/setSpeed/Ground%20Shock/300"
+curl -i "http://localhost:8899/setSpeed/Nuke/300"
+curl -i "http://localhost:8899/setSpeed/Big%20Bang/300"
+sleep 5
+curl -i "http://localhost:8899/setLaneOffset/Thermo/0"
+curl -i "http://localhost:8899/changeLanes/Thermo/-63"
+curl -i "http://localhost:8899/setLaneOffset/Guardian/0"
+curl -i "http://localhost:8899/changeLanes/Guardian/-63"
+curl -i "http://localhost:8899/setLaneOffset/Skull/0"
+curl -i "http://localhost:8899/changeLanes/Skull/-63"
+curl -i "http://localhost:8899/setLaneOffset/Ground%20Shock/0"
+curl -i "http://localhost:8899/changeLanes/Ground%20Shock/-63"
+curl -i "http://localhost:8899/setLaneOffset/Nuke/0"
+curl -i "http://localhost:8899/changeLanes/Nuke/-63"
+curl -i "http://localhost:8899/setLaneOffset/Big%20Bang/0"
+curl -i "http://localhost:8899/changeLanes/Big%20Bang/-63"
+sleep 5
+curl -i "http://localhost:8899/setSpeed/Thermo/800"
+curl -i "http://localhost:8899/setSpeed/Guardian/800"
+curl -i "http://localhost:8899/setSpeed/Skull/800"
+curl -i "http://localhost:8899/setSpeed/Ground%20Shock/800"
+curl -i "http://localhost:8899/setSpeed/Nuke/800"
+curl -i "http://localhost:8899/setSpeed/Big%20Bang/800"
+sleep 5
+curl -i "http://localhost:8899/setSpeed/Thermo/0"
+curl -i "http://localhost:8899/setSpeed/Guardian/0"
+curl -i "http://localhost:8899/setSpeed/Skull/0"
+curl -i "http://localhost:8899/setSpeed/Ground%20Shock/0"
+curl -i "http://localhost:8899/setSpeed/Nuke/0"
+curl -i "http://localhost:8899/setSpeed/Big%20Bang/0"

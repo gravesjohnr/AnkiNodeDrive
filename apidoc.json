@@ -1,0 +1,10 @@
+{
+  "name": "Anki Node Drive",
+  "version": "1.0.0",
+  "description": "A Node Based SDK for Anki Overdrive",
+  "title": "Anki Node Drive",
+  "url" : "http://ankipi:7877",
+  "footer": {
+    "title": "By John Graves - All rights reserved"
+  }
+}

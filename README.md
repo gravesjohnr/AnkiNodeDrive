@@ -29,6 +29,7 @@ Here is a basic list of capabilities:<br/>
 <li>setLaneOffset</li>
 <li>setSpeed</li>
 <li>trackCountTravel</li>
+</ul>
 <b>LIGHTS</b>
 <li>flashTaillights</li>
 <li>setEngineLight</li>
@@ -36,6 +37,7 @@ Here is a basic list of capabilities:<br/>
 <li>turnOffTaillights</li>
 <li>turnOnHeadlights</li>
 <li>turnOnTaillights</li>
+</ul>
 <br/>
 <h2>Known Limitations</h2>
 I was only able to sort out the track IDs for my kit.  I have a few other kits on order and will update the track IDs as best I can.  Please let me know if you are able to tell me additional track IDs and what type of track it is (straight/curve/start).<br/>

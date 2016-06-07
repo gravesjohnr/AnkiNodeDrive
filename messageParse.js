@@ -66,7 +66,7 @@ module.exports = function() {
         var trackTypes=["unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown", //  0- 9
                         "unknown","Turn",   "unknown","unknown","unknown","unknown","unknown","Turn",   "Turn",   "unknown", // 10-19
                         "Turn",   "unknown","unknown","Turn",   "unknown","unknown","unknown","unknown","unknown","unknown", // 20-29
-                        "unknown","unknown","unknown","Start",  "Finish", "unknown","unknown","unknown","unknown","Straight", // 30-39
+                        "unknown","unknown","unknown","Start",  "Finish", "unknown","Straight","unknown","unknown","Straight", // 30-39
                         "Straight","unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown"] // 40-49
         var trackLocation = data.readUInt8(2);
         var trackId = data.readUInt8(3);
@@ -180,6 +180,11 @@ module.exports = function() {
       // Message[0x29][Track Event]:  <Buffer 12 29 00 00 10 bf 1f 49 00 ff ff 00 00 54 01 00 00 37 36>
       // It looks like this event has changed from the SDK.  After much trial/error, I found an interesting bit of info from the message to help me figure out the shape of the track.
       else if (msgId == 0x29) { // ANKI_VEHICLE_MSG_V2C_LOCALIZATION_TRANSITION_UPDATE
+        console.log("Message[0x"+msgId.toString(16)+"][Track Event]: ",data);
+        console.log("Size: "+data.length);
+        if(data.length < 18) {
+          return; // Sometimes we get an odd msg.
+        }
         trackTransition=true;
         var leftWheelDistance = data.readUInt8(17);
         var rightWheelDistance = data.readUInt8(18);

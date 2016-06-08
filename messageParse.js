@@ -63,11 +63,13 @@ module.exports = function() {
 
       else if (msgId == 0x27) { // ANKI_VEHICLE_MSG_V2C_LOCALIZATION_POSITION_UPDATE
         //              0         1         2         3         4         5         6         7         8         9
+        //
+        // The jump kit and landing are Jump(43) and Landing(46).  For mapping purposes, they are set to 'Straight'
         var trackTypes=["unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown", //  0- 9
                         "unknown","Turn",   "unknown","unknown","unknown","unknown","unknown","Turn",   "Turn",   "unknown", // 10-19
                         "Turn",   "unknown","unknown","Turn",   "unknown","unknown","unknown","unknown","unknown","unknown", // 20-29
                         "unknown","unknown","unknown","Start",  "Finish", "unknown","Straight","unknown","unknown","Straight", // 30-39
-                        "Straight","unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown"] // 40-49
+                        "Straight","unknown","unknown","Straight","unknown","unknown","Straight","unknown","unknown","unknown"] // 40-49
         var trackLocation = data.readUInt8(2);
         var trackId = data.readUInt8(3);
         var offset = data.readFloatLE(4);

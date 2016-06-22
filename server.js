@@ -517,9 +517,7 @@ app.post('/trackCountTravel/:carname/:trackCount/:speed', function (req, res) {
  * @apiSampleRequest http://ankipi:7877/mapTrack/:carname
  * @apiSuccessExample Success-Response
  * HTTP/1.1 200 OK
- * {
- *   "result": "Success"
- * }
+ *   UTF8 - image/png
  */
 app.post('/mapTrack/:carname', function (req, res) {
     var carName = req.params.carname
@@ -535,25 +533,26 @@ app.post('/mapTrack/:carname', function (req, res) {
  * @apiGroup Mapping
  * @apiVersion 1.0.0
  * @apiDescription
- * Get a map data of the existing track.  This returns an array of numbers.  These numbers mean:
- *  0 - No track
- *  1 - Start/Finish
- *  2 - Straight Horizontal
- *  3 - Straight Vertical
- *  4 - Curve - North -> East (West -> South)
- *  5 - Curve - East -> South (North -> West)
- *  6 - Curve - West -> North (South -> East)
- *  7 - Curve - South -> West (East -> North)
- *  8 - Straight Horizontal over Vertical
- *  9 - Straight Vertical over Horizontal
- * 10 - Curve - North -> East over Vertical
- * 11 - Curve - North -> West over Vertical
- * 12 - Curve - South -> East over Vertical
- * 13 - Curve - South -> West over Vertical
- * 14 - Curve - North -> East over Horizontal
- * 15 - Curve - North -> West over Horizontal
- * 16 - Curve - South -> East over Horizontal
- * 17 - Curve - South -> West over Horizontal
+ * Get a map data of the existing track.  This returns an array of numbers.<br>
+ * These numbers mean:<br>
+ *  0 - No track<br>
+ *  1 - Start/Finish<br>
+ *  2 - Straight Horizontal<br>
+ *  3 - Straight Vertical<br>
+ *  4 - Curve - North -> East (West -> South)<br>
+ *  5 - Curve - East -> South (North -> West)<br>
+ *  6 - Curve - West -> North (South -> East)<br>
+ *  7 - Curve - South -> West (East -> North)<br>
+ *  8 - Straight Horizontal over Vertical<br>
+ *  9 - Straight Vertical over Horizontal<br>
+ * 10 - Curve - North -> East over Vertical<br>
+ * 11 - Curve - North -> West over Vertical<br>
+ * 12 - Curve - South -> East over Vertical<br>
+ * 13 - Curve - South -> West over Vertical<br>
+ * 14 - Curve - North -> East over Horizontal<br>
+ * 15 - Curve - North -> West over Horizontal<br>
+ * 16 - Curve - South -> East over Horizontal<br>
+ * 17 - Curve - South -> West over Horizontal<br>
  *
  * Note: This will return an error message unless '/mapTrack' has been run.
  *

@@ -855,7 +855,7 @@ define({ "api": [
     "name": "getTrackMapData",
     "group": "Mapping",
     "version": "1.0.0",
-    "description": "<p>Get a map data of the existing track.  This returns an array of numbers.  These numbers mean:  0 - No track  1 - Start/Finish  2 - Straight Horizontal  3 - Straight Vertical  4 - Curve - North -&gt; East (West -&gt; South)  5 - Curve - East -&gt; South (North -&gt; West)  6 - Curve - West -&gt; North (South -&gt; East)  7 - Curve - South -&gt; West (East -&gt; North)  8 - Straight Horizontal over Vertical  9 - Straight Vertical over Horizontal 10 - Curve - North -&gt; East over Vertical 11 - Curve - North -&gt; West over Vertical 12 - Curve - South -&gt; East over Vertical 13 - Curve - South -&gt; West over Vertical 14 - Curve - North -&gt; East over Horizontal 15 - Curve - North -&gt; West over Horizontal 16 - Curve - South -&gt; East over Horizontal 17 - Curve - South -&gt; West over Horizontal</p> <p>Note: This will return an error message unless &#39;/mapTrack&#39; has been run.</p> ",
+    "description": "<p>Get a map data of the existing track.  This returns an array of numbers.<br> These numbers mean:<br>  0 - No track<br>  1 - Start/Finish<br>  2 - Straight Horizontal<br>  3 - Straight Vertical<br>  4 - Curve - North -&gt; East (West -&gt; South)<br>  5 - Curve - East -&gt; South (North -&gt; West)<br>  6 - Curve - West -&gt; North (South -&gt; East)<br>  7 - Curve - South -&gt; West (East -&gt; North)<br>  8 - Straight Horizontal over Vertical<br>  9 - Straight Vertical over Horizontal<br> 10 - Curve - North -&gt; East over Vertical<br> 11 - Curve - North -&gt; West over Vertical<br> 12 - Curve - South -&gt; East over Vertical<br> 13 - Curve - South -&gt; West over Vertical<br> 14 - Curve - North -&gt; East over Horizontal<br> 15 - Curve - North -&gt; West over Horizontal<br> 16 - Curve - South -&gt; East over Horizontal<br> 17 - Curve - South -&gt; West over Horizontal<br></p> <p>Note: This will return an error message unless &#39;/mapTrack&#39; has been run.</p> ",
     "examples": [
       {
         "title": "Example usage:",
@@ -917,7 +917,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response",
-          "content": "HTTP/1.1 200 OK\n{\n  \"result\": \"Success\"\n}",
+          "content": "HTTP/1.1 200 OK\n  UTF8 - image/png",
           "type": "json"
         }
       ]

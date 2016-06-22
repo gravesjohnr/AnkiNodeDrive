@@ -622,17 +622,87 @@ var trackCountTravel = function(carName,tracksToTravel,speed) {
       function(callback) { // Write the request to start the car traveling
         console.log("Starting car...");
         writerCharacteristic = getWriterCharacteristic(carName);
-        setSpeed(writerCharacteristic,speed);
+        setSpeed(carName,speed);
         callback();
       }],
       function(err) { /// Done... build reply
         console.log("Final call.  Stop car");
         console.log("Starting car...");
         writerCharacteristic = getWriterCharacteristic(carName);
-        setSpeed(writerCharacteristic,0);
+        setSpeed(carName,0);
       }
     );
   });
+}
+
+var mapTrack = function(carName,trackMap) {
+  console.log("Map Track Start...");
+  trackMap.resetTrackMap();
+  getReaderCharacteristic(carName).then(function(readerCharacteristic){
+    if(readerCharacteristic == null) {
+      return("Unable to find and connect to car "+carName);
+    }
+    var replyData=null;
+    var trackCount=0;
+    var trackTransition=false;
+    var startTrackCount=0;
+
+    console.log("Starting parallel");
+    async.parallel([
+      function(callback) {  // Turn on reader notifications
+        readerCharacteristic.notify(true, function(err) {
+        });
+        callback();
+      },
+      function(callback) { // Read data until we get track msg
+        console.log("Starting reader...");
+        function processData(data, isNotification) {
+          var messageId = data.readUInt8(1);
+          if(messageId == 0x27) { // ANKI_VEHICLE_MSG_V2C_LOCALIZATION_POSITION_UPDATE
+            console.log("Position Update...");
+            if(trackTransition == true) {
+              var trackLocation = data.readUInt8(2);
+              var trackId = data.readUInt8(3);
+              var offset = data.readFloatLE(4);
+              var speed = data.readUInt16LE(8);
+              var clockwise = false;
+              if(data.readUInt8(10) == 0x47) {
+                clockwise = true;
+              }
+              trackMap.addTrackToMap(trackId,clockwise);
+              trackTransition = false;
+              if(trackId == 33) { // Start track
+                startTrackCount++;
+                if(startTrackCount >= 2) {
+                  // stop the car
+                  readerCharacteristic.removeListener('read',processData);
+                  callback();
+                }
+              }
+            }
+          } else if (messageId == 0x29) { // Track event (This happens when the car transitions from one track to the next
+            console.log("Track Transition Event...");
+            trackCount = trackCount + 1;
+            trackTransition = true;
+          }
+        }
+        readerCharacteristic.on('read', processData);
+      },
+      function(callback) { // Write the request to start the car traveling
+        console.log("Starting car for mapping: "+carName);
+        writerCharacteristic = getWriterCharacteristic(carName);
+        setSpeed(carName,500);
+        callback();
+      }],
+      function(err) { /// Done... build reply
+        console.log("Final call.  Stop car.  Mapping done.");
+        console.log("Starting car...");
+        writerCharacteristic = getWriterCharacteristic(carName);
+        setSpeed(carName,0);
+      }
+    );
+  });
+  console.log("Map Track End...");
 }
 
 module.exports = function() {
@@ -650,6 +720,7 @@ module.exports = function() {
     uTurn: uTurn,
     ping: ping,
     batteryLevel: batteryLevel,
-    trackCountTravel: trackCountTravel
+    trackCountTravel: trackCountTravel,
+    mapTrack: mapTrack
   }
 };

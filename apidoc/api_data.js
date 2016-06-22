@@ -29,7 +29,7 @@ define({ "api": [
     ],
     "sampleRequest": [
       {
-        "url": "http://ankipi:7877/batteryLevel/Skull"
+        "url": "http://ankipi:7877/batteryLevel/:carname"
       }
     ],
     "success": {
@@ -196,7 +196,7 @@ define({ "api": [
     ],
     "sampleRequest": [
       {
-        "url": "http://ankipi:7877/ping/Skull"
+        "url": "http://ankipi:7877/ping/:carname"
       }
     ],
     "success": {
@@ -273,7 +273,7 @@ define({ "api": [
     ],
     "sampleRequest": [
       {
-        "url": "http://ankipi:7877/turnOnLogging/Skull"
+        "url": "http://ankipi:7877/turnOnLogging/:carname"
       }
     ],
     "success": {
@@ -488,7 +488,7 @@ define({ "api": [
     ],
     "sampleRequest": [
       {
-        "url": "http://ankipi:7877/trackCountTravel/Skull/15/800"
+        "url": "http://ankipi:7877/trackCountTravel/:carname/:trackCount/:speed"
       }
     ],
     "success": {
@@ -802,6 +802,128 @@ define({ "api": [
     },
     "filename": "./server.js",
     "groupTitle": "Lights"
+  },
+  {
+    "type": "get",
+    "url": "/getTrackMap/:size",
+    "title": "getTrackMap",
+    "name": "getTrackMap",
+    "group": "Mapping",
+    "version": "1.0.0",
+    "description": "<p>Get a map of the existing track.  Note: This will return an error message unless &#39;/mapTrack&#39; has been run.</p> ",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "size",
+            "description": "<p>Size of the png image returned. (Values: small, medium, large) (64px/track,128px/track,256px/track)</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "curl -i -X GET http://ankipi:7877/getTrackMap/medium",
+        "type": "curl"
+      }
+    ],
+    "sampleRequest": [
+      {
+        "url": "http://ankipi:7877/getTrackMap/:size"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response",
+          "content": "HTTP/1.1 200 OK\n{\n  \"result\": \"Success\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./server.js",
+    "groupTitle": "Mapping"
+  },
+  {
+    "type": "get",
+    "url": "/getTrackMapData",
+    "title": "getTrackMapData",
+    "name": "getTrackMapData",
+    "group": "Mapping",
+    "version": "1.0.0",
+    "description": "<p>Get a map data of the existing track.  This returns an array of numbers.  These numbers mean:  0 - No track  1 - Start/Finish  2 - Straight Horizontal  3 - Straight Vertical  4 - Curve - North -&gt; East (West -&gt; South)  5 - Curve - East -&gt; South (North -&gt; West)  6 - Curve - West -&gt; North (South -&gt; East)  7 - Curve - South -&gt; West (East -&gt; North)  8 - Straight Horizontal over Vertical  9 - Straight Vertical over Horizontal 10 - Curve - North -&gt; East over Vertical 11 - Curve - North -&gt; West over Vertical 12 - Curve - South -&gt; East over Vertical 13 - Curve - South -&gt; West over Vertical 14 - Curve - North -&gt; East over Horizontal 15 - Curve - North -&gt; West over Horizontal 16 - Curve - South -&gt; East over Horizontal 17 - Curve - South -&gt; West over Horizontal</p> <p>Note: This will return an error message unless &#39;/mapTrack&#39; has been run.</p> ",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "curl -i -X GET http://ankipi:7877/getTrackMapData",
+        "type": "curl"
+      }
+    ],
+    "sampleRequest": [
+      {
+        "url": "http://ankipi:7877/getTrackData"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response",
+          "content": "HTTP/1.1 200 OK\n{\n  \"map\": \"[[0,0],[1,2],[3,2],[5,6]]\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./server.js",
+    "groupTitle": "Mapping"
+  },
+  {
+    "type": "post",
+    "url": "/mapTrack/:carname",
+    "title": "mapTrack",
+    "name": "mapTrack",
+    "group": "Mapping",
+    "version": "1.0.0",
+    "description": "<p>Build a map of the existing track.  To use, place a car on the track (in the &#39;right direction based on starting line) and call this api.  Once the car completes two passes over the starting line, the track map will be complete and the car will stop.  Then, the &#39;/getTrackMap&#39; API will be active.</p> ",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "carname",
+            "description": "<p>Name of the car to be used to map the track. (e.g. Skull, Thermo, etc)</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "curl -i http://ankipi:7877/mapTrack/Skull",
+        "type": "curl"
+      }
+    ],
+    "sampleRequest": [
+      {
+        "url": "http://ankipi:7877/mapTrack/:carname"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response",
+          "content": "HTTP/1.1 200 OK\n{\n  \"result\": \"Success\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./server.js",
+    "groupTitle": "Mapping"
   },
   {
     "success": {

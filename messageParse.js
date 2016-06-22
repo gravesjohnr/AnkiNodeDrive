@@ -1,16 +1,5 @@
-var trackShape=new Array(20);
-for(i=0;i<20;i++) {
-  trackShape[i] = new Array(20);
-}
-for(i=0;i<20;i++) {
-  for(j=0;j<20;j++) {
-    trackShape[i][j] = 0;
-  }
-}
-var startFound=false;
-var mapX=10;
-var mapY=10;
-var mapDir=0;
+var trackMap = require('./trackMap.js')();
+
 var trackTransition=false;
 
 module.exports = function() {
@@ -65,11 +54,6 @@ module.exports = function() {
         //              0         1         2         3         4         5         6         7         8         9
         //
         // The jump kit and landing are Jump(43) and Landing(46).  For mapping purposes, they are set to 'Straight'
-        var trackTypes=["unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown", //  0- 9
-                        "unknown","Turn",   "unknown","unknown","unknown","unknown","unknown","Turn",   "Turn",   "unknown", // 10-19
-                        "Turn",   "unknown","unknown","Turn",   "unknown","unknown","unknown","unknown","unknown","unknown", // 20-29
-                        "unknown","unknown","unknown","Start",  "Finish", "unknown","Straight","unknown","unknown","Straight", // 30-39
-                        "Straight","unknown","unknown","Straight","unknown","unknown","Straight","unknown","unknown","unknown"] // 40-49
         var trackLocation = data.readUInt8(2);
         var trackId = data.readUInt8(3);
         var offset = data.readFloatLE(4);
@@ -78,104 +62,9 @@ module.exports = function() {
         if(data.readUInt8(10) == 0x47) {
           clockwise = true;
         }
-        var trackType = trackTypes[trackId];
-        if (trackType == "Start") {
-          mapX=10;mapY=10; // Always start here.
-          //console.log("Found start");
-          //console.log("TrackShape: ",trackShape);
-          startFound = true;
-          trackShape[mapY][mapX]=1;
-          //console.log("TrackShape: ",trackShape);
-          mapDir=1; // East
-          mapX += 1;
-        }
-        // Building a track array:
-        // 0 - No track
-        // 1 - Start/Finish 
-        // 2 - Straight Horizontal
-        // 3 - Straight Vertical
-        // 4 - Curve - North -> East (West -> South)
-        // 5 - Curve - East -> South (North -> West)
-        // 6 - Curve - West -> North (South -> East)
-        // 7 - Curve - South -> West (East -> North)
-        if (trackType == "Straight") {
-          if(startFound == true && trackTransition == true) {
-            if(mapDir == 1) { // East
-              trackShape[mapY][mapX]=3;
-              mapX += 1;
-            }
-            else if(mapDir == 2) { // South
-              trackShape[mapY][mapX]=2;
-              mapY += 1;
-            }
-            else if(mapDir == 3) { // West
-              trackShape[mapY][mapX]=3;
-              mapX -= 1;
-            }
-            else if(mapDir == 0) { // North
-              trackShape[mapY][mapX]=2;
-              mapY -= 1;
-            }
-            //console.log("TrackShape: ",trackShape);
-            trackTransition = false;
-          }
-        }
-        if (trackType == "Turn") {
-          if(clockwise) {
-            trackType = "Right Turn";
-            if(startFound == true && trackTransition == true) {
-              if(mapDir == 1) { // East
-                trackShape[mapY][mapX]=5;
-                mapDir = 2; // South
-                mapY += 1;
-              }
-              else if(mapDir == 2) { // South
-                trackShape[mapY][mapX]=7;
-                mapDir = 3; // West
-                mapX -= 1;
-              }
-              else if(mapDir == 3) { // West
-                trackShape[mapY][mapX]=6;
-                mapDir = 0; // North
-                mapY -= 1;
-              }
-              else if(mapDir == 0) { // North
-                trackShape[mapY][mapX]=4;
-                mapDir = 1; // East
-                mapX += 1;
-              }
-              //console.log("TrackShape: ",trackShape);
-              trackTransition = false;
-            }
-          } else {
-            trackType = "Left Turn";
-            if(startFound == true && trackTransition == true) {
-              if(mapDir == 1) { // East
-                trackShape[mapY][mapX]=7;
-                mapDir = 0; // North
-                mapY -= 1;
-              }
-              else if(mapDir == 2) { // South
-                trackShape[mapY][mapX]=6;
-                mapDir = 1; // East
-                mapX += 1;
-              }
-              else if(mapDir == 3) { // West
-                trackShape[mapY][mapX]=4;
-                mapDir = 2; // South
-                mapY += 1;
-              }
-              else if(mapDir == 0) { // North
-                trackShape[mapY][mapX]=5;
-                mapDir = 3; // West
-                mapX -= 1;
-              }
-              //console.log("TrackShape: ",trackShape);
-              trackTransition = false;
-            }
-          }
-        }
-        console.log("Message[0x"+msgId.toString(16)+"][Position Update]: ",data," Location: ",trackLocation.toString(16)," id:(",trackId,") ",trackId.toString(16)," offset: ",offset," speed: "+speed+" clockwise: ",clockwise," Type: "+trackType);
+        trackMap.addTrackToMap(trackId,clockwise);
+//        console.log("Message[0x"+msgId.toString(16)+"][Position Update]: ",data," Location: ",trackLocation.toString(16)," id:(",trackId,") ",trackId.toString(16)," offset: ",offset," speed: "+speed+" clockwise: ",clockwise," Type: "+trackType);
+        console.log("Message[0x"+msgId.toString(16)+"][Position Update]: ",data," Location: ",trackLocation.toString(16)," id:(",trackId,") ",trackId.toString(16)," offset: ",offset," speed: "+speed+" clockwise: ",clockwise);
        
       }
 

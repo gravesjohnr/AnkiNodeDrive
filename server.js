@@ -1,5 +1,6 @@
 var util = require('util');
 var ankiNodeUtils = require('./ankiNodeUtils.js')();
+var trackMap = require('./trackMap.js')();
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -490,14 +491,131 @@ app.post('/turnOnLogging/:carname', function (req, res) {
  *   "result": "Success"
  * }
  */
-app.get('/trackCountTravel/:carname/:trackCount/:speed', function (req, res) {
+app.post('/trackCountTravel/:carname/:trackCount/:speed', function (req, res) {
     var carName = req.params.carname
     var trackCount = req.params.trackCount
     var speed = req.params.speed
-    console.log("trackCountTravel: "+carName);
+    console.log("trackCountTravel: "+carName+" - "+trackCount+" - "+speed);
     ankiNodeUtils.trackCountTravel(carName,trackCount,speed);
     res.send(JSON.stringify({ result: "Success"}));
     res.end();
+});
+
+/**
+ * @api {post} /mapTrack/:carname mapTrack
+ * @apiName mapTrack
+ * @apiGroup Mapping
+ * @apiVersion 1.0.0
+ * @apiDescription
+ * Build a map of the existing track.  To use, place a car on the track (in the 'right direction based on starting line) and call this api.  Once the car completes two passes over the starting line, the track map will be complete and the car will stop.  Then, the '/getTrackMap' API will be active.
+ *
+ * @apiParam {String} carname Name of the car to be used to map the track. (e.g. Skull, Thermo, etc)
+ *
+ * @apiExample {curl} Example usage:
+ *     curl -i http://ankipi:7877/mapTrack/Skull
+ *
+ * @apiSampleRequest http://ankipi:7877/mapTrack/:carname
+ * @apiSuccessExample Success-Response
+ * HTTP/1.1 200 OK
+ * {
+ *   "result": "Success"
+ * }
+ */
+app.post('/mapTrack/:carname', function (req, res) {
+    var carName = req.params.carname
+    console.log("Mapping the track using car: "+carName);
+    ankiNodeUtils.mapTrack(carName,trackMap);
+    res.send(JSON.stringify({ result: "Success"}));
+    res.end();
+});
+
+/**
+ * @api {get} /getTrackMapData getTrackMapData
+ * @apiName getTrackMapData
+ * @apiGroup Mapping
+ * @apiVersion 1.0.0
+ * @apiDescription
+ * Get a map data of the existing track.  This returns an array of numbers.  These numbers mean:
+ *  0 - No track
+ *  1 - Start/Finish
+ *  2 - Straight Horizontal
+ *  3 - Straight Vertical
+ *  4 - Curve - North -> East (West -> South)
+ *  5 - Curve - East -> South (North -> West)
+ *  6 - Curve - West -> North (South -> East)
+ *  7 - Curve - South -> West (East -> North)
+ *  8 - Straight Horizontal over Vertical
+ *  9 - Straight Vertical over Horizontal
+ * 10 - Curve - North -> East over Vertical
+ * 11 - Curve - North -> West over Vertical
+ * 12 - Curve - South -> East over Vertical
+ * 13 - Curve - South -> West over Vertical
+ * 14 - Curve - North -> East over Horizontal
+ * 15 - Curve - North -> West over Horizontal
+ * 16 - Curve - South -> East over Horizontal
+ * 17 - Curve - South -> West over Horizontal
+ *
+ * Note: This will return an error message unless '/mapTrack' has been run.
+ *
+ * @apiExample {curl} Example usage:
+ *     curl -i -X GET http://ankipi:7877/getTrackMapData
+ *
+ * @apiSampleRequest http://ankipi:7877/getTrackData
+ * @apiSuccessExample Success-Response
+ * HTTP/1.1 200 OK
+ * {
+ *   "map": "[[0,0],[1,2],[3,2],[5,6]]"
+ * }
+ */
+app.get('/getTrackMapData', function (req, res) {
+    var size = req.params.size
+    if(trackMap.isTrackMapDone() == false) {
+      res.send(JSON.stringify({ result: "Error", message: "Track map has not completed.  Use '/mapTrack' API and wait for the car to stop."}));
+      res.end();
+      return;
+    }
+    var mapArray = trackMap.getTrackMapData();
+    res.send(JSON.stringify({ map: mapArray}));
+    res.end();
+});
+
+/**
+ * @api {get} /getTrackMap/:size getTrackMap
+ * @apiName getTrackMap
+ * @apiGroup Mapping
+ * @apiVersion 1.0.0
+ * @apiDescription
+ * Get a map of the existing track.  Note: This will return an error message unless '/mapTrack' has been run.
+ *
+ * @apiParam {String} size Size of the png image returned. (Values: small, medium, large) (64px/track,128px/track,256px/track)
+ *
+ * @apiExample {curl} Example usage:
+ *     curl -i -X GET http://ankipi:7877/getTrackMap/medium
+ *
+ * @apiSampleRequest http://ankipi:7877/getTrackMap/:size
+ * @apiSuccessExample Success-Response
+ * HTTP/1.1 200 OK
+ * {
+ *   "result": "Success"
+ * }
+ */
+app.get('/getTrackMap/:size', function (req, res) {
+    var size = req.params.size
+    if(size != "small" && size != "medium" && size != "large") {
+      res.send(JSON.stringify({ result: "Error", message: "Size must be 'small', 'medium' or 'large'"}));
+      res.end();
+      return;
+    }
+    if(trackMap.isTrackMapDone() == false) {
+      res.send(JSON.stringify({ result: "Error", message: "Track map has not completed.  Use '/mapTrack' API and wait for the car to stop."}));
+      res.end();
+      return;
+    }
+    var canvas = trackMap.getTrackMap(size);
+//    res.send('<img src="' + canvas.toDataURL() + '" />');
+    var stream = canvas.createPNGStream();
+    res.type("png");
+    stream.pipe(res);   
 });
 
 app.use('/', express.static('apidoc'));

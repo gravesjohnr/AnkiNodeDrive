@@ -361,7 +361,7 @@ app.get('/ping/:carname', function (req, res) {
  * @apiExample {curl} Example usage:
  *     curl -i http://ankipi:7877/batteryLevel/Skull
  *
- * @apiSampleRequest http://ankipi:7877/batteryLevel/:carname
+ * @apiSampleRequest /batteryLevel/:carname
  * @apiSuccessExample Success-Response
  * HTTP/1.1 200 OK
  * {

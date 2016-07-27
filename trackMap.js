@@ -47,14 +47,16 @@ function updateTrackShape() {
 // 7 - Curve - South -> West (East -> North)
 // 8 - Straight Horizontal over Vertical
 // 9 - Straight Vertical over Horizontal
-//10 - Curve - North -> East over Vertical
-//11 - Curve - North -> West over Vertical
-//12 - Curve - South -> East over Vertical
-//13 - Curve - South -> West over Vertical
-//14 - Curve - North -> East over Horizontal
-//15 - Curve - North -> West over Horizontal
-//16 - Curve - South -> East over Horizontal
-//17 - Curve - South -> West over Horizontal
+//10 - Two Curve - West -> North AND East -> South
+//11 - Two Curve - South -> West AND North -> East
+//12 - Curve - North -> East over Vertical
+//13 - Curve - North -> West over Vertical
+//14 - Curve - South -> East over Vertical
+//15 - Curve - South -> West over Vertical
+//16 - Curve - North -> East over Horizontal
+//17 - Curve - North -> West over Horizontal
+//18 - Curve - South -> East over Horizontal
+//19 - Curve - South -> West over Horizontal
 // I just don't deal with straight over curve...
 var addTrackToMap = function(trackId,clockwise) {
   var trackTypes=["unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown", //  0- 9
@@ -88,10 +90,10 @@ var addTrackToMap = function(trackId,clockwise) {
             trackShape[mapY][mapX]=8;
             break;
           case 6:
-            trackShape[mapY][mapX]=16;
+            trackShape[mapY][mapX]=18;
             break;
           case 7:
-            trackShape[mapY][mapX]=17;
+            trackShape[mapY][mapX]=19;
             break;
           default:
             break; // Leave it alone if something is there.
@@ -105,10 +107,10 @@ var addTrackToMap = function(trackId,clockwise) {
             trackShape[mapY][mapX]=3;
             break;
           case 5:
-            trackShape[mapY][mapX]=11;
+            trackShape[mapY][mapX]=13;
             break;
           case 7:
-            trackShape[mapY][mapX]=13;
+            trackShape[mapY][mapX]=15;
             break;
           case 2:
             trackShape[mapY][mapX]=9;
@@ -128,10 +130,10 @@ var addTrackToMap = function(trackId,clockwise) {
             trackShape[mapY][mapX]=8; // Horz over Vert
             break;
           case 6:
-            trackShape[mapY][mapX]=16;
+            trackShape[mapY][mapX]=18;
             break;
           case 7:
-            trackShape[mapY][mapX]=17;
+            trackShape[mapY][mapX]=19;
             break;
           default:
             break; // Leave it alone if something is there.
@@ -145,10 +147,10 @@ var addTrackToMap = function(trackId,clockwise) {
             trackShape[mapY][mapX]=3;
             break;
           case 5:
-            trackShape[mapY][mapX]=11;
+            trackShape[mapY][mapX]=13;
             break;
           case 7:
-            trackShape[mapY][mapX]=13;
+            trackShape[mapY][mapX]=15;
             break;
           case 2:
             trackShape[mapY][mapX]=9;
@@ -169,9 +171,12 @@ var addTrackToMap = function(trackId,clockwise) {
               trackShape[mapY][mapX]=5;
               break;
             case 2: // Over horiz
-              trackShape[mapY][mapX]=15;
+              trackShape[mapY][mapX]=17;
               break;
             case 3: // Over vert
+              trackShape[mapY][mapX]=13;
+              break;
+            case 6: // Over corner turn
               trackShape[mapY][mapX]=11;
               break;
             default: // Don't touch
@@ -187,10 +192,13 @@ var addTrackToMap = function(trackId,clockwise) {
               trackShape[mapY][mapX]=7;
               break;
             case 2:
-              trackShape[mapY][mapX]=17;
+              trackShape[mapY][mapX]=19;
               break;
             case 3:
-              trackShape[mapY][mapX]=13;
+              trackShape[mapY][mapX]=15;
+              break;
+            case 4:
+              trackShape[mapY][mapX]=10;
               break;
             default:
               break;
@@ -205,10 +213,13 @@ var addTrackToMap = function(trackId,clockwise) {
               trackShape[mapY][mapX]=6;
               break;
             case 2:
-              trackShape[mapY][mapX]=16;
+              trackShape[mapY][mapX]=18;
               break;
             case 3:
-              trackShape[mapY][mapX]=12;
+              trackShape[mapY][mapX]=14;
+              break;
+            case 5:
+              trackShape[mapY][mapX]=11;
               break;
             default:
               break;
@@ -223,9 +234,12 @@ var addTrackToMap = function(trackId,clockwise) {
               trackShape[mapY][mapX]=4;
               break;
             case 2:
-              trackShape[mapY][mapX]=14;
+              trackShape[mapY][mapX]=16;
               break;
             case 3:
+              trackShape[mapY][mapX]=12;
+              break;
+            case 7:
               trackShape[mapY][mapX]=10;
               break;
             default:
@@ -243,10 +257,13 @@ var addTrackToMap = function(trackId,clockwise) {
               trackShape[mapY][mapX]=7;
               break;
             case 2:
-              trackShape[mapY][mapX]=17;
+              trackShape[mapY][mapX]=19;
               break;
             case 3:
-              trackShape[mapY][mapX]=13;
+              trackShape[mapY][mapX]=15;
+              break;
+            case 7:
+              trackShape[mapY][mapX]=10;
               break;
             default:
               break;
@@ -261,10 +278,13 @@ var addTrackToMap = function(trackId,clockwise) {
               trackShape[mapY][mapX]=6;
               break;
             case 2:
-              trackShape[mapY][mapX]=16;
+              trackShape[mapY][mapX]=18;
               break;
             case 3:
-              trackShape[mapY][mapX]=12;
+              trackShape[mapY][mapX]=14;
+              break;
+            case 5:
+              trackShape[mapY][mapX]=11;
               break;
             default:
               break;
@@ -279,9 +299,12 @@ var addTrackToMap = function(trackId,clockwise) {
               trackShape[mapY][mapX]=4;
               break;
             case 2:
-              trackShape[mapY][mapX]=14;
+              trackShape[mapY][mapX]=16;
               break;
             case 3:
+              trackShape[mapY][mapX]=12;
+              break;
+            case 7:
               trackShape[mapY][mapX]=10;
               break;
             default:
@@ -297,9 +320,12 @@ var addTrackToMap = function(trackId,clockwise) {
               trackShape[mapY][mapX]=5;
               break;
             case 2:
-              trackShape[mapY][mapX]=15;
+              trackShape[mapY][mapX]=17;
               break;
             case 3:
+              trackShape[mapY][mapX]=13;
+              break;
+            case 6:
               trackShape[mapY][mapX]=11;
               break;
             default:
@@ -355,6 +381,8 @@ var getTrackMap = function(size) {
   segmentImages[15] = new Image; segmentImages[15].src = "images/"+size+"/15.png";
   segmentImages[16] = new Image; segmentImages[16].src = "images/"+size+"/16.png";
   segmentImages[17] = new Image; segmentImages[17].src = "images/"+size+"/17.png";
+  segmentImages[18] = new Image; segmentImages[18].src = "images/"+size+"/18.png";
+  segmentImages[19] = new Image; segmentImages[19].src = "images/"+size+"/19.png";
 
   var segmentSize=0;
   if(size == 'small') { segmentSize=64; }

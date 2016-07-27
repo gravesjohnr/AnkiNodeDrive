@@ -630,6 +630,7 @@ var trackCountTravel = function(carName,tracksToTravel,speed) {
         console.log("Starting car...");
         writerCharacteristic = getWriterCharacteristic(carName);
         setSpeed(carName,0);
+        disconnectCar(carName);
       }
     );
   });
@@ -638,6 +639,7 @@ var trackCountTravel = function(carName,tracksToTravel,speed) {
 var mapTrack = function(carName,trackMap) {
   console.log("Map Track Start...");
   trackMap.resetTrackMap();
+  rescan(); // try to make sure we can see the car
   getReaderCharacteristic(carName).then(function(readerCharacteristic){
     if(readerCharacteristic == null) {
       return("Unable to find and connect to car "+carName);

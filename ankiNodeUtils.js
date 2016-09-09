@@ -15,18 +15,23 @@ var MAX_BATTERY_LEVEL=4200;
 //////////////////////////////////////////////////////////
 
 noble.on('stateChange', function(state) {
+  console.log("BTLE State changed: "+state);
   if (state === 'poweredOn') {
+    console.log("Start scanning");
     noble.startScanning();
 
     setTimeout(function() {
+       console.log("Stop scanning");
        noble.stopScanning();
      }, 2000);
   } else {
+    console.log("Stop scanning");
     noble.stopScanning();
   }
 });
 
 noble.on('discover', function(peripheral) {
+  console.log("BTLE: discover");
   var id = peripheral.advertisement.serviceUuids;
   var manufacturerData = peripheral.advertisement.manufacturerData;
   //console.log(util.inspect(peripheral, false,null));
@@ -44,18 +49,18 @@ noble.on('discover', function(peripheral) {
       var model_data = manufacturerData[3]
       var carName = "Unknown"
       switch(model_data) {
-        case 1: // Kourai
-          var carName = "Kourai"
-          break;
-        case 2: // Boson
-          var carName = "Boson"
-          break;
-        case 3: // Rho
-          var carName = "Rho"
-          break;
-        case 4: // Katal
-          var carName = "Katal"
-          break;
+//        case 1: // Kourai
+//          var carName = "Kourai"
+//          break;
+//        case 2: // Boson
+//          var carName = "Boson"
+//          break;
+//        case 3: // Rho
+//          var carName = "Rho"
+//          break;
+//        case 4: // Katal
+//          var carName = "Katal"
+//          break;
         case 8: // Ground Shock
           var carName = "Ground Shock"
           break;
@@ -71,24 +76,31 @@ noble.on('discover', function(peripheral) {
         case 12: // Guardian
           var carName = "Guardian"
           break;
-        case 14: // Big Bang
-          var carName = "Big Bang"
-          break;
+  //      case 14: // Big Bang
+   //       var carName = "Big Bang"
+    //      break;
         default:
           break;
       }
-      var address = peripheral.address;
-      var state = peripheral.state;
-      console.log('Found car: ' + carName + " ID: ["+id+"] Address: ["+address+"]"); 
-      carList.push({carName: carName, address: address, state: state, serviceUuids: id[0]});
-      peripheralList.push(peripheral);
+      if(carName != "Unknown") {
+        var address = peripheral.address;
+        var state = peripheral.state;
+        console.log('Found car: ' + carName + " ID: ["+id+"] Address: ["+address+"]"); 
+        carList.push({carName: carName, address: address, state: state, serviceUuids: id[0]});
+        peripheralList.push(peripheral);
+      }
   }
+});
+
+noble.on('disconnect', function(peripheral) {
+  console.log("BTLE: disconnect called");
 });
 
 //////////////////////////////////////////////////////////
 // Rescan
 //////////////////////////////////////////////////////////
 var rescan = function() {
+  carList = [];
   noble.startScanning();
 
   setTimeout(function() {
@@ -639,7 +651,7 @@ var trackCountTravel = function(carName,tracksToTravel,speed) {
 var mapTrack = function(carName,trackMap) {
   console.log("Map Track Start...");
   trackMap.resetTrackMap();
-  rescan(); // try to make sure we can see the car
+  //rescan(); // try to make sure we can see the car
   getReaderCharacteristic(carName).then(function(readerCharacteristic){
     if(readerCharacteristic == null) {
       return("Unable to find and connect to car "+carName);
@@ -661,7 +673,7 @@ var mapTrack = function(carName,trackMap) {
         function processData(data, isNotification) {
           var messageId = data.readUInt8(1);
           if(messageId == 0x27) { // ANKI_VEHICLE_MSG_V2C_LOCALIZATION_POSITION_UPDATE
-            console.log("Position Update...");
+            //console.log("Position Update...");
             if(trackTransition == true) {
               var trackLocation = data.readUInt8(2);
               var trackId = data.readUInt8(3);

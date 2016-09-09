@@ -62,17 +62,17 @@ module.exports = function() {
         if(data.readUInt8(10) == 0x47) {
           clockwise = true;
         }
-        trackMap.addTrackToMap(trackId,clockwise);
+        //trackMap.addTrackToMap(trackId,clockwise);
 //        console.log("Message[0x"+msgId.toString(16)+"][Position Update]: ",data," Location: ",trackLocation.toString(16)," id:(",trackId,") ",trackId.toString(16)," offset: ",offset," speed: "+speed+" clockwise: ",clockwise," Type: "+trackType);
-        console.log("Message[0x"+msgId.toString(16)+"][Position Update]: ",data," Location: ",trackLocation.toString(16)," id:(",trackId,") ",trackId.toString(16)," offset: ",offset," speed: "+speed+" clockwise: ",clockwise);
+//        console.log("Message[0x"+msgId.toString(16)+"][Position Update]: ",data," Location: ",trackLocation.toString(16)," id:(",trackId,") ",trackId.toString(16)," offset: ",offset," speed: "+speed+" clockwise: ",clockwise);
        
       }
 
       // Message[0x29][Track Event]:  <Buffer 12 29 00 00 10 bf 1f 49 00 ff ff 00 00 54 01 00 00 37 36>
       // It looks like this event has changed from the SDK.  After much trial/error, I found an interesting bit of info from the message to help me figure out the shape of the track.
       else if (msgId == 0x29) { // ANKI_VEHICLE_MSG_V2C_LOCALIZATION_TRANSITION_UPDATE
-        console.log("Message[0x"+msgId.toString(16)+"][Track Event]: ",data);
-        console.log("Size: "+data.length);
+        //console.log("Message[0x"+msgId.toString(16)+"][Track Event]: ",data);
+        //console.log("Size: "+data.length);
         if(data.length < 18) {
           return; // Sometimes we get an odd msg.
         }

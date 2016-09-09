@@ -521,6 +521,7 @@ app.post('/trackCountTravel/:carname/:trackCount/:speed', function (req, res) {
  */
 app.post('/mapTrack/:carname', function (req, res) {
     var carName = req.params.carname
+    console.log("Connecting to car: "+carName);
     console.log("Mapping the track using car: "+carName);
     ankiNodeUtils.mapTrack(carName,trackMap);
     res.send(JSON.stringify({ result: "Success"}));
@@ -615,6 +616,17 @@ app.get('/getTrackMap/:size', function (req, res) {
     var stream = canvas.createPNGStream();
     res.type("png");
     stream.pipe(res);   
+});
+
+app.get('/exit', function (req, res) {
+    res.send(JSON.stringify({ result: "Success"}));
+    res.end();
+    process.exit();
+});
+
+app.get('/ping', function (req, res) {
+    res.send(JSON.stringify({ result: "Success"}));
+    res.end();
 });
 
 app.use('/', express.static('apidoc'));

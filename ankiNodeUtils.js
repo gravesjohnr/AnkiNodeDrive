@@ -83,6 +83,9 @@ noble.on('discover', function(peripheral) {
         case 15: // Truck - Free Wheel
           var carName = "Free Wheel"
           break;
+        case 16: // Truck - X52
+          var carName = "X52"
+          break;
         default:
           break;
       }

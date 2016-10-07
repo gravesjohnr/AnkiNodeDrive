@@ -48,6 +48,7 @@ noble.on('discover', function(peripheral) {
   if(manufacturerData != null) {
       var model_data = manufacturerData[3]
       var carName = "Unknown"
+      console.log("Model Data: "+model_data);
       switch(model_data) {
 //        case 1: // Kourai
 //          var carName = "Kourai"
@@ -76,9 +77,12 @@ noble.on('discover', function(peripheral) {
         case 12: // Guardian
           var carName = "Guardian"
           break;
-  //      case 14: // Big Bang
-   //       var carName = "Big Bang"
-    //      break;
+        //case 14: // Big Bang
+         // var carName = "Big Bang"
+          //break;
+        case 15: // Truck - Free Wheel
+          var carName = "Free Wheel"
+          break;
         default:
           break;
       }
@@ -206,11 +210,29 @@ var disconnectCar = function(carName) {
 //////////////////////////////////////////////////////////
 var connectCar = function(carName) {
   console.log("Connect to car: "+carName);
+  // Note: The car name can be the actual name or the address.
+  // If only one of a given car 'e.g. Skull' is around, it is easier to use the name.
+  // If two or more cars with the same name are around, it is best to use the address.
   var peripheral = null;
   // See if we are already connected.
-  for(var i=0; i<carList.length;i++) {
-    if(carList[i].carName == carName) {
-      peripheral = peripheralList[i];
+  if(carName == "Skull" ||
+     carName == "Thermo" ||
+     carName == "Guardian" ||
+     carName == "Ground Shock" ||
+     carName == "Nuke" ||
+     carName == "Big Bang" ||
+     carName == "Free Wheel") {
+    for(var i=0; i<carList.length;i++) {
+      if(carList[i].carName == carName) {
+        peripheral = peripheralList[i];
+      }
+    }
+  } else {
+    // Connect via ID
+    for(var i=0; i<peripheralList.length;i++) {
+      if(peripheralList[i].address == carName) {
+        peripheral = peripheralList[i];
+      }
     }
   }
   if(peripheral == null) {

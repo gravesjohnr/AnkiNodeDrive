@@ -95,6 +95,12 @@ var addTrackToMap = function(trackId,clockwise) {
           case 3:
             trackShape[mapY][mapX]=8;
             break;
+          case 4:
+            trackShape[mapY][mapX]=16;
+            break;
+          case 5:
+            trackShape[mapY][mapX]=17;
+            break;
           case 6:
             trackShape[mapY][mapX]=18;
             break;
@@ -112,8 +118,14 @@ var addTrackToMap = function(trackId,clockwise) {
           case 0:
             trackShape[mapY][mapX]=3;
             break;
+          case 4:
+            trackShape[mapY][mapX]=12;
+            break;
           case 5:
             trackShape[mapY][mapX]=13;
+            break;
+          case 6:
+            trackShape[mapY][mapX]=14;
             break;
           case 7:
             trackShape[mapY][mapX]=15;
@@ -135,6 +147,12 @@ var addTrackToMap = function(trackId,clockwise) {
           case 3:
             trackShape[mapY][mapX]=8; // Horz over Vert
             break;
+          case 4:
+            trackShape[mapY][mapX]=16;
+            break;
+          case 5:
+            trackShape[mapY][mapX]=17;
+            break;
           case 6:
             trackShape[mapY][mapX]=18;
             break;
@@ -152,8 +170,14 @@ var addTrackToMap = function(trackId,clockwise) {
           case 0:
             trackShape[mapY][mapX]=3;
             break;
+          case 4:
+            trackShape[mapY][mapX]=12;
+            break;
           case 5:
             trackShape[mapY][mapX]=13;
+            break;
+          case 6:
+            trackShape[mapY][mapX]=14;
             break;
           case 7:
             trackShape[mapY][mapX]=15;
@@ -424,6 +448,10 @@ var isTrackMapDone = function() {
   return trackMapDone;
 }
 
+var setTrackMapDone = function() {
+  trackMapDone=true;
+}
+
 var resetTrackMap = function() {
   trackMapDone=false;
   startFound=false;
@@ -436,6 +464,10 @@ var resetTrackMap = function() {
 
 var getTrackMapData = function() {
   return trackShape;
+}
+
+var setTrackMapData = function(newMap) {
+  trackShape=newMap;
 }
 
 var getTrackMap = function(size) {
@@ -491,8 +523,10 @@ module.exports = function() {
 return {
     addTrackToMap: addTrackToMap,
     isTrackMapDone: isTrackMapDone,
+    setTrackMapDone: setTrackMapDone,
     resetTrackMap: resetTrackMap,
     getTrackMapData: getTrackMapData,
+    setTrackMapData: setTrackMapData,
     getTrackMap: getTrackMap
   }
 };

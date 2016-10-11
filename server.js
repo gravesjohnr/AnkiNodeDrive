@@ -512,7 +512,7 @@ app.post('/trackCountTravel/:carname/:trackCount/:speed', function (req, res) {
  * @apiParam {String} carname Name of the car to be used to map the track. (e.g. Skull, Thermo, etc)
  *
  * @apiExample {curl} Example usage:
- *     curl -i http://ankipi:7877/mapTrack/Skull
+ *     curl -i -X POST http://ankipi:7877/mapTrack/Skull
  *
  * @apiSampleRequest http://ankipi:7877/mapTrack/:carname
  * @apiSuccessExample Success-Response
@@ -524,6 +524,82 @@ app.post('/mapTrack/:carname', function (req, res) {
     console.log("Connecting to car: "+carName);
     console.log("Mapping the track using car: "+carName);
     ankiNodeUtils.mapTrack(carName,trackMap);
+    res.send(JSON.stringify({ result: "Success"}));
+    res.end();
+});
+
+/**
+ * @api {post} /mapSave mapSave
+ * @apiName mapSave
+ * @apiGroup Mapping
+ * @apiVersion 1.0.0
+ * @apiDescription
+ * Save the track data to a local file.  Only one map can be saved.
+ *
+ * @apiExample {curl} Example usage:
+ *     curl -i -X POST http://ankipi:7877/mapSave
+ *
+ * @apiSampleRequest http://ankipi:7877/mapSave
+ * @apiSuccessExample Success-Response
+ * HTTP/1.1 200 OK
+ *   UTF8 - image/png
+ */
+app.post('/mapSave', function (req, res) {
+    console.log("Saving Map");
+
+    if(trackMap.isTrackMapDone() == false) {
+      res.send(JSON.stringify({ result: "Error", message: "Track map has not completed.  Use '/mapTrack' API and wait for the car to stop."}));
+      res.end();
+      return;
+    }
+    var mapArray = trackMap.getTrackMapData();
+    console.log(JSON.stringify({ map: mapArray}));
+    require("fs").writeFile(
+     "mapData.out",
+     mapArray.map(function(v){ return v.join(', ')}).join('\n'),
+     function (err) { console.log(err ? 'Error :'+err : 'ok') }
+    );
+
+    console.log("The file was saved!");
+
+    res.send(JSON.stringify({ result: "Success"}));
+    res.end();
+});
+
+/**
+ * @api {post} /mapLoad mapLoad
+ * @apiName mapLoad
+ * @apiGroup Mapping
+ * @apiVersion 1.0.0
+ * @apiDescription
+ * Load the track data from a local file.  Only one map can be saved.
+ *
+ * @apiExample {curl} Example usage:
+ *     curl -i -X POST http://ankipi:7877/mapLoad
+ *
+ * @apiSampleRequest http://ankipi:7877/mapLoad
+ * @apiSuccessExample Success-Response
+ * HTTP/1.1 200 OK
+ *   UTF8 - image/png
+ */
+app.post('/mapLoad', function (req, res) {
+    console.log("Loading Map");
+
+    var fs = require('fs');
+    var mapArray = fs.readFileSync('mapData.out').toString().split("\n");
+    // Convert it to an array of ints
+    for(i in mapArray) {
+      mapArray[i] = mapArray[i].split(',');
+      for(j in mapArray[i]) {
+        mapArray[i][j] = parseInt(mapArray[i][j]);
+      }
+    }
+
+    console.log("The file was loaded!");
+    console.log(JSON.stringify({ map: mapArray}));
+    trackMap.setTrackMapDone();
+    trackMap.setTrackMapData(mapArray);
+
     res.send(JSON.stringify({ result: "Success"}));
     res.end();
 });
@@ -568,7 +644,6 @@ app.post('/mapTrack/:carname', function (req, res) {
  * }
  */
 app.get('/getTrackMapData', function (req, res) {
-    var size = req.params.size
     if(trackMap.isTrackMapDone() == false) {
       res.send(JSON.stringify({ result: "Error", message: "Track map has not completed.  Use '/mapTrack' API and wait for the car to stop."}));
       res.end();

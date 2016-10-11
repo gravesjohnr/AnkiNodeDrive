@@ -29,7 +29,7 @@ define({ "api": [
     ],
     "sampleRequest": [
       {
-        "url": "http://ankipi:7877/batteryLevel/:carname"
+        "url": "/batteryLevel/:carname"
       }
     ],
     "success": {
@@ -882,6 +882,70 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "/mapLoad",
+    "title": "mapLoad",
+    "name": "mapLoad",
+    "group": "Mapping",
+    "version": "1.0.0",
+    "description": "<p>Load the track data from a local file.  Only one map can be saved.</p> ",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "curl -i -X POST http://ankipi:7877/mapLoad",
+        "type": "curl"
+      }
+    ],
+    "sampleRequest": [
+      {
+        "url": "http://ankipi:7877/mapLoad"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response",
+          "content": "HTTP/1.1 200 OK\n  UTF8 - image/png",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./server.js",
+    "groupTitle": "Mapping"
+  },
+  {
+    "type": "post",
+    "url": "/mapSave",
+    "title": "mapSave",
+    "name": "mapSave",
+    "group": "Mapping",
+    "version": "1.0.0",
+    "description": "<p>Save the track data to a local file.  Only one map can be saved.</p> ",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "curl -i -X POST http://ankipi:7877/mapSave",
+        "type": "curl"
+      }
+    ],
+    "sampleRequest": [
+      {
+        "url": "http://ankipi:7877/mapSave"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response",
+          "content": "HTTP/1.1 200 OK\n  UTF8 - image/png",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./server.js",
+    "groupTitle": "Mapping"
+  },
+  {
+    "type": "post",
     "url": "/mapTrack/:carname",
     "title": "mapTrack",
     "name": "mapTrack",
@@ -904,7 +968,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example usage:",
-        "content": "curl -i http://ankipi:7877/mapTrack/Skull",
+        "content": "curl -i -X POST http://ankipi:7877/mapTrack/Skull",
         "type": "curl"
       }
     ],

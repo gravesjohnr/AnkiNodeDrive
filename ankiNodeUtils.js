@@ -86,6 +86,9 @@ noble.on('discover', function(peripheral) {
         case 16: // Truck - X52
           var carName = "X52"
           break;
+        case 17: // Truck - X52 Ice
+          var carName = "X52 Ice"
+          break;
         default:
           break;
       }
@@ -224,7 +227,8 @@ var connectCar = function(carName) {
      carName == "Ground Shock" ||
      carName == "Nuke" ||
      carName == "Big Bang" ||
-     carName == "Free Wheel") {
+     carName == "Free Wheel" ||
+     carName == "X52 Ice") {
     for(var i=0; i<carList.length;i++) {
       if(carList[i].carName == carName) {
         peripheral = peripheralList[i];

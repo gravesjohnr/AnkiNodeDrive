@@ -68,7 +68,8 @@ var addTrackToMap = function(trackId,clockwise) {
                   "Crossover","Turn",   "unknown","unknown","unknown","unknown","unknown","Turn",   "Turn",   "unknown", // 10-19
                   "Turn",   "unknown","unknown","Turn",   "unknown","unknown","unknown","unknown","unknown","unknown", // 20-29
                   "unknown","unknown","unknown","Start",  "Finish", "unknown","Straight","unknown","unknown","Straight", // 30-39
-                  "Straight","unknown","unknown","Straight","unknown","unknown","Straight","unknown","unknown","unknown"] // 40-49
+                  "Straight","unknown","unknown","Straight","unknown","unknown","Straight","unknown","Straight","unknown", // 40-49
+                  "unknown","Straight","unknown","unknown","unknown","unknown","unknown","unknown","unknown","unknown"] // 50-59
   var trackType = trackTypes[trackId];
   if (trackType == "Start") {
     if(startFound == true) { // We've already done the whole map.
